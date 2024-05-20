@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.CloseableHttpResponse;
 
 import com.dtone.dvs.dto.ApiError;
 import com.dtone.dvs.dto.ApiResponse;
@@ -34,7 +34,7 @@ public class ApiResponseBuilder {
 	 * @throws DvsApiException
 	 */
 	public <T> ApiResponse<T> prepareResponse(ApiResponse<T> apiResponse, TypeReference<T> typeReference,
-			HttpResponse response) throws IOException {
+			CloseableHttpResponse response) throws IOException {
 		int statusCode = response.getStatusLine().getStatusCode();
 		setPageDetails(apiResponse, response.getAllHeaders());
 

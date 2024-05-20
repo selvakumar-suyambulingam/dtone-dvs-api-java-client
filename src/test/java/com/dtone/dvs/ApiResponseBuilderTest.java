@@ -44,7 +44,7 @@ public class ApiResponseBuilderTest {
 	HttpEntity mockHttpEntity = mock(HttpEntity.class);
 
 	@Mock
-	HttpResponse httpResponse = mock(CloseableHttpResponse.class);
+	CloseableHttpResponse httpResponse = mock(CloseableHttpResponse.class);
 
 	@Before
 	public void setUp() throws Exception {

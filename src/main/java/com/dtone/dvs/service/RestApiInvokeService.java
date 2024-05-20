@@ -4,16 +4,17 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.http.HttpHeaders;
-import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 import com.dtone.dvs.dto.ApiRequest;
@@ -25,7 +26,7 @@ public class RestApiInvokeService {
 	private String apiKey;
 	private String apiSecret;
 
-	private HttpClient httpClient;
+	private CloseableHttpClient httpClient;
 
 	public RestApiInvokeService(String apiKey, String apiSecret) {
 		this.apiKey = apiKey;
@@ -38,17 +39,17 @@ public class RestApiInvokeService {
 		httpClient = httpClientBuilder.build();
 	}
 
-	public RestApiInvokeService(String apiKey, String apiSecret, HttpClient httpClient) {
+	public RestApiInvokeService(String apiKey, String apiSecret, CloseableHttpClient httpClient) {
 		this.apiKey = apiKey;
 		this.apiSecret = apiSecret;
 		this.httpClient = httpClient;
 	}
 
-	public HttpResponse executeGet(String url) throws IOException {
+	public CloseableHttpResponse executeGet(String url) throws IOException {
 		return httpClient.execute(getHttpGet(url));
 	}
 
-	public HttpResponse executePost(String url, ApiRequest apiRequest) throws IOException {
+	public CloseableHttpResponse executePost(String url, ApiRequest apiRequest) throws IOException {
 		return httpClient.execute(getHttpPost(url, apiRequest));
 	}
 
@@ -60,7 +61,7 @@ public class RestApiInvokeService {
 		}
 
 		httpPost.addHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType());
-		httpPost.addHeader(HttpHeaders.USER_AGENT, "DVS-APICLIENT-SDK/2.0.2 JAVA");
+		httpPost.addHeader(HttpHeaders.USER_AGENT, "DVS-APICLIENT-SDK/2.0.3 JAVA");
 
 		return httpPost;
 	}

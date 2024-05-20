@@ -1,5 +1,7 @@
 package com.dtone.dvs.service;
 
+import org.apache.http.client.methods.CloseableHttpResponse;
+
 import com.dtone.dvs.dto.ApiRequest;
 import com.dtone.dvs.dto.ApiResponse;
 import com.dtone.dvs.dto.Page;
@@ -35,8 +37,8 @@ public class ApiService {
 
 	public <T> ApiResponse<T> httpGet(String url, ApiResponse<T> apiResponse, TypeReference<T> typeReference)
 			throws DvsApiException {
-		try {
-			return apiResponseBuilder.prepareResponse(apiResponse, typeReference, restApiInvokeService.executeGet(url));
+		try (CloseableHttpResponse response = restApiInvokeService.executeGet(url)) {
+			return apiResponseBuilder.prepareResponse(apiResponse, typeReference, response);
 		} catch (Exception e) {
 			throw new DvsApiException(e);
 		}
@@ -44,9 +46,8 @@ public class ApiService {
 
 	public <T> Page<ApiResponse<T>> httpGetPageable(String apiOperation, String url, ApiResponse<T> apiResponse,
 			TypeReference<T> typeReference) throws DvsApiException {
-		try {
-			ApiResponse<T> apiResponseResult = apiResponseBuilder.prepareResponse(apiResponse, typeReference,
-					restApiInvokeService.executeGet(url));
+		try (CloseableHttpResponse response = restApiInvokeService.executeGet(url)) {
+			ApiResponse<T> apiResponseResult = apiResponseBuilder.prepareResponse(apiResponse, typeReference, response);
 
 			Page<ApiResponse<T>> page = new Page<>(apiOperation, getUrl(), getApiKey(), getApiSecret(),
 					apiResponseResult);
@@ -67,9 +68,8 @@ public class ApiService {
 
 	public <T> ApiResponse<T> httpPost(String uri, ApiResponse<T> apiResponse, TypeReference<T> typeReference,
 			ApiRequest apiRequest) throws DvsApiException {
-		try {
-			return apiResponseBuilder.prepareResponse(apiResponse, typeReference,
-					restApiInvokeService.executePost(uri, apiRequest));
+		try (CloseableHttpResponse response = restApiInvokeService.executePost(uri, apiRequest)) {
+			return apiResponseBuilder.prepareResponse(apiResponse, typeReference, response);
 		} catch (Exception e) {
 			throw new DvsApiException(e);
 		}

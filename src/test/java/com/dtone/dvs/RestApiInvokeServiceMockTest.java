@@ -4,9 +4,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -20,13 +20,13 @@ import com.dtone.dvs.service.RestApiInvokeService;
 public class RestApiInvokeServiceMockTest {
 
 	@Mock
-	HttpClient mockHttpClient = mock(HttpClient.class);
+	CloseableHttpClient mockHttpClient = mock(CloseableHttpClient.class);
 
 	@InjectMocks
 	RestApiInvokeService mockRestApiInvokeService = new RestApiInvokeService("", "", mockHttpClient);
 
 	@Mock
-	HttpResponse mockHttpResponse = mock(HttpResponse.class);
+	CloseableHttpResponse mockHttpResponse = mock(CloseableHttpResponse.class);
 
 	@Before
 	public void setUp() throws Exception {
